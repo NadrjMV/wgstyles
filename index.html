@@ -99,6 +99,20 @@
         .animate-scroll:hover {
             animation-play-state: paused; /* Para o scroll quando passa o mouse */
         }
+        
+        /* Estilo do FAQ */
+        .faq-item details > summary {
+            list-style: none;
+        }
+        .faq-item details > summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item details[open] .faq-icon {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden">
@@ -314,7 +328,7 @@
         </div>
     </section>
 
-    <!-- Parceiros Oficiais (Local) - RESTAURADO COM LINKS ORIGINAIS -->
+    <!-- Parceiros Oficiais (Local) -->
     <section class="py-16 bg-brand-black border-y border-gray-900">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-10">
@@ -412,6 +426,83 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- FAQ (Novo) -->
+    <section class="py-16 bg-brand-black border-t border-gray-900">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-display font-bold text-white text-center mb-10 uppercase">Dúvidas Frequentes</h2>
+            
+            <div class="space-y-4">
+                <div class="faq-item border border-gray-800 rounded-sm bg-brand-dark">
+                    <details class="group p-4 cursor-pointer">
+                        <summary class="flex justify-between items-center font-bold text-white">
+                            Vocês enviam para todo o Brasil?
+                            <i class="ph ph-caret-down faq-icon text-gray-400 group-hover:text-white"></i>
+                        </summary>
+                        <p class="text-gray-400 mt-4 text-sm leading-relaxed">
+                            Não! Nosso atendimento é exclusivamente e unicamente na loja física! Visite-nos e veja a qualidade!
+                        </p>
+                    </details>
+                </div>
+                
+                <div class="faq-item border border-gray-800 rounded-sm bg-brand-dark">
+                    <details class="group p-4 cursor-pointer">
+                        <summary class="flex justify-between items-center font-bold text-white">
+                            Quais as formas de pagamento?
+                            <i class="ph ph-caret-down faq-icon text-gray-400 group-hover:text-white"></i>
+                        </summary>
+                        <p class="text-gray-400 mt-4 text-sm leading-relaxed">
+                            Aceitamos Pix (com aprovação imediata), Cartão de Crédito em até 12x e Boleto Bancário. Para pagamentos no Pix, geralmente conseguimos despachar mais rápido.
+                        </p>
+                    </details>
+                </div>
+
+                <div class="faq-item border border-gray-800 rounded-sm bg-brand-dark">
+                    <details class="group p-4 cursor-pointer">
+                        <summary class="flex justify-between items-center font-bold text-white">
+                            A Prata Mista escurece?
+                            <i class="ph ph-caret-down faq-icon text-gray-400 group-hover:text-white"></i>
+                        </summary>
+                        <p class="text-gray-400 mt-4 text-sm leading-relaxed">
+                            Trabalhamos com uma liga de alta qualidade. Assim como a Prata 925 pura, ela pode sofrer oxidação natural dependendo do ácido úrico da pele, mas basta uma limpeza simples com flanela mágica ou limpa-pratas para voltar o brilho original.
+                        </p>
+                    </details>
+                </div>
+
+                <div class="faq-item border border-gray-800 rounded-sm bg-brand-dark">
+                    <details class="group p-4 cursor-pointer">
+                        <summary class="flex justify-between items-center font-bold text-white">
+                            Posso trocar se não servir?
+                            <i class="ph ph-caret-down faq-icon text-gray-400 group-hover:text-white"></i>
+                        </summary>
+                        <p class="text-gray-400 mt-4 text-sm leading-relaxed">
+                            Com certeza. Você tem até 7 dias após o recebimento para solicitar a troca por tamanho ou defeito. A peça deve estar com a etiqueta e sem sinais de uso.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter (Novo) -->
+    <section class="py-20 bg-brand-silver relative overflow-hidden">
+        <div class="absolute inset-0 bg-brand-dark opacity-90"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+            <i class="ph ph-envelope-simple text-4xl text-white mb-4"></i>
+            <h2 class="text-3xl md:text-4xl font-display font-black text-white uppercase mb-4">
+                Não perca o próximo <span class="text-gray-400">Drop</span>
+            </h2>
+            <p class="text-gray-400 mb-8">
+                Cadastre-se na nossa lista VIP e receba avisos de lançamentos e cupons exclusivos antes de todo mundo.
+            </p>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" onsubmit="event.preventDefault(); alert('Cadastro realizado! Fique de olho no seu e-mail.');">
+                <input type="email" placeholder="Seu melhor e-mail" class="flex-1 p-4 bg-black/50 border border-gray-600 text-white placeholder-gray-500 focus:outline-none focus:border-white rounded-sm" required>
+                <button type="submit" class="bg-white text-black font-bold uppercase py-4 px-8 hover:bg-gray-200 transition rounded-sm">
+                    Cadastrar
+                </button>
+            </form>
         </div>
     </section>
 
