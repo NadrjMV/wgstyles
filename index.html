@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO brabo pra rankear em Itajubá e região -->
+    <meta name="description" content="WG.Styles - A melhor loja de Streetwear, Sportlife e Surf de Itajubá. Roupas exclusivas e Prata Mista. Enviamos para todo o Brasil.">
+    <meta name="keywords" content="Streetwear Itajubá, Prata Mista, Loja de Roupa Masculina, Surf Wear, WG Styles, Moda Urbana">
+    <meta name="author" content="WG.Styles">
+    <title>WG.Styles | Streetwear & Pratas</title>
+
+    <!-- Tailwind CSS via CDN (Carregamento rápido sem build step complexo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fontes: Montserrat (Títulos imponentes) e Inter (Leitura fluida) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (Phosphor Icons - mais leves e modernos que FontAwesome) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- AOS Animation (Animações de scroll pra dar aquele "Uau") -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Configurações visuais personalizadas -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#0a0a0a',
+                            dark: '#121212',
+                            gray: '#27272a',
+                            silver: '#e2e8f0', // Tom de prata pros detalhes
+                            accent: '#ffffff', // Contraste máximo
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(18,18,18,1)), url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?q=80&w=1920&auto=format&fit=crop')",
+                        'silver-pattern': "linear-gradient(to right bottom, #1a1a1a, #000000)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ajustes finos que o Tailwind padrão não cobre */
+        body {
+            background-color: #0a0a0a;
+            color: #f4f4f5;
+        }
+        
+        /* Scrollbar personalizada pra combinar com o dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #71717a;
+        }
+
+        /* Efeito Glassmorphism no Header */
+        .glass-nav {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Animação suave nos produtos */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animação do Carrossel de Marcas (Marquee) */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+            animation: scroll 20s linear infinite;
+        }
+        .animate-scroll:hover {
+            animation-play-state: paused; /* Para o scroll quando passa o mouse */
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Header Fixo com Glassmorphism -->
+    <header id="main-header" class="fixed w-full top-0 z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <h1 class="font-display font-black text-2xl tracking-tighter text-white italic">
+                        WG<span class="text-gray-400">.STYLES</span>⚡️
+                    </h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider">Início</a>
+                    <!-- Inverti a ordem aqui tbm pra bater com o layout -->
+                    <a href="#silver" class="text-gray-300 hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider">Pratas</a>
+                    <a href="#collection" class="text-gray-300 hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider">Streetwear</a>
+                    <a href="#about" class="text-gray-300 hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider">A Loja</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <!-- Botão Admin Discreto -->
+                    <button onclick="toggleAdminModal()" class="text-gray-500 hover:text-white transition" title="Acesso Restrito">
+                        <i class="ph ph-lock-key text-lg"></i>
+                    </button>
+                    
+                    <button class="relative text-white hover:text-gray-300 transition">
+                        <i class="ph ph-shopping-bag text-2xl"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-2 bg-white text-black text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <a href="https://wa.me/5535999999999" target="_blank" class="bg-white text-black px-5 py-2 rounded-sm font-bold text-sm hover:bg-gray-200 transition transform hover:scale-105">
+                        CONTATO
+                    </a>
+                </div>
+
+                <!-- Mobile Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white p-2">
+                        <i class="ph ph-list text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-t border-gray-800 absolute w-full">
+            <div class="px-4 pt-2 pb-8 space-y-4 flex flex-col items-center">
+                <a href="#home" class="block px-3 py-2 text-base font-medium text-white hover:text-gray-300">INÍCIO</a>
+                <a href="#silver" class="block px-3 py-2 text-base font-medium text-white hover:text-gray-300">PRATAS</a>
+                <a href="#collection" class="block px-3 py-2 text-base font-medium text-white hover:text-gray-300">STREETWEAR</a>
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-white hover:text-gray-300">LOCALIZAÇÃO</a>
+                <a href="https://wa.me/5535999999999" class="w-full text-center bg-white text-black py-3 font-bold mt-4">FALAR NO WHATSAPP</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/50"></div> <!-- Overlay pra garantir leitura -->
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+            <span class="inline-block py-1 px-3 border border-white/30 rounded-full text-xs font-semibold tracking-widest text-white mb-6 backdrop-blur-sm uppercase">
+                Enviamos para todo o Brasil ✈️
+            </span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-black text-white leading-tight mb-6 uppercase italic">
+                O Estilo que<br>você merece.
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 font-light max-w-2xl mx-auto">
+                Streetwear, Sportlife e a curadoria mais fina de Prata Mista. Vista a atitude de quem corre pelo certo.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#silver" class="bg-white text-black px-8 py-4 font-bold text-lg rounded-sm hover:bg-gray-200 transition transform hover:-translate-y-1 shadow-lg shadow-white/10 uppercase tracking-wide">
+                    Pratas Exclusivas
+                </a>
+                <a href="#collection" class="border border-white text-white px-8 py-4 font-bold text-lg rounded-sm hover:bg-white/10 transition backdrop-blur-sm uppercase tracking-wide">
+                    Ver Roupas
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
+            <i class="ph ph-caret-down text-3xl"></i>
+        </div>
+    </section>
+
+    <!-- Faixa de Benefícios -->
+    <div class="bg-brand-dark border-b border-gray-800 py-6">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-gray-800">
+                <div class="p-2" data-aos="fade-up" data-aos-delay="0">
+                    <i class="ph ph-credit-card text-3xl text-white mb-2"></i>
+                    <h3 class="font-bold text-white uppercase">Parcelamos até 12x</h3>
+                    <p class="text-sm text-gray-400">No cartão de crédito</p>
+                </div>
+                <div class="p-2" data-aos="fade-up" data-aos-delay="100">
+                    <i class="ph ph-shield-check text-3xl text-white mb-2"></i>
+                    <h3 class="font-bold text-white uppercase">Compra Segura</h3>
+                    <p class="text-sm text-gray-400">Seus dados protegidos</p>
+                </div>
+                <div class="p-2" data-aos="fade-up" data-aos-delay="200">
+                    <i class="ph ph-airplane-tilt text-3xl text-white mb-2"></i>
+                    <h3 class="font-bold text-white uppercase">Clientes</h3>
+                    <p class="text-sm text-gray-400">De todas as cidades</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção Pratas -->
+    <section id="silver" class="py-20 bg-brand-dark relative overflow-hidden border-b border-gray-800">
+        <!-- Elemento decorativo de fundo -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-gray-700 rounded-full filter blur-[100px] opacity-20"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-gray-400 uppercase tracking-[0.2em] text-sm font-semibold">Acessórios Premium</span>
+                <h2 class="text-4xl md:text-6xl font-display font-black text-white mt-2 uppercase italic">
+                    Prata <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">Mista</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="silver-grid">
+                <!-- Cards Prata via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Banner Promocional / Visual -->
+    <section class="py-24 relative bg-fixed bg-center bg-cover" style="background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/3619015-abstract-chaos-grunge-red-paint-texture-in-black-background-gratis-vetor.jpg');">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-6xl font-display font-black text-white uppercase mb-6" data-aos="zoom-in">
+                Qualidade que impõe respeito
+            </h2>
+            <p class="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
+                Trabalhamos apenas com as melhores marcas e materiais. Do tecido da camiseta ao fecho da corrente.
+            </p>
+            <a href="https://wa.me/5535999999999" class="inline-block bg-white text-black font-bold py-4 px-10 rounded-sm hover:bg-gray-200 transition duration-300 uppercase">
+                Fale com um Vendedor
+            </a>
+        </div>
+    </section>
+
+    <!-- Seção Streetwear -->
+    <section id="collection" class="py-20 bg-brand-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-display font-black text-white uppercase italic tracking-tighter" data-aos="fade-right">
+                        Drops <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Recentes</span>
+                    </h2>
+                    <p class="text-gray-400 mt-2">O melhor do streetwear e sportlife.</p>
+                </div>
+                <a href="#" class="hidden md:block text-white border-b border-white pb-1 text-sm hover:text-gray-300 hover:border-gray-300 transition">Ver tudo -></a>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="clothing-grid">
+                <!-- Cards injetados via JS -->
+            </div>
+            
+            <div class="mt-12 text-center md:hidden">
+                <button class="bg-brand-gray text-white px-8 py-3 w-full uppercase font-bold text-sm">Ver Catálogo Completo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Brands (Marcas Vendidas - Carrossel) -->
+    <section class="py-12 bg-brand-dark border-t border-gray-800 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 mb-8">
+            <div class="text-center">
+                <p class="text-gray-500 text-xs uppercase tracking-[0.3em] font-bold">Trabalhamos com as melhores</p>
+            </div>
+        </div>
+        
+        <!-- Container do Carrossel (Marquee) -->
+        <div class="relative w-full overflow-hidden">
+            <div class="flex w-[200%] animate-scroll gap-20 items-center opacity-60 hover:opacity-100 transition-opacity duration-500">
+                <!-- Lista 1 -->
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">NIKE</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">ADIDAS</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">HIGH</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">BAW</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">OAKLEY</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">QUIKSILVER</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">VANS</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">HURLEY</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">FILA</h3>
+
+                <!-- Lista 2 (Repetição para efeito infinito) -->
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">NIKE</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">ADIDAS</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">HIGH</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">BAW</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">OAKLEY</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">QUIKSILVER</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">VANS</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">HURLEY</h3>
+                <h3 class="text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-gray-500 to-gray-700 whitespace-nowrap">FILA</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nova Seção: Parceiros Oficiais (Local) -->
+    <section class="py-16 bg-brand-black border-y border-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <span class="text-gray-400 uppercase tracking-[0.2em] text-sm font-semibold">Fortalecendo a Cena</span>
+                <h2 class="text-2xl md:text-3xl font-display font-bold text-white mt-2 uppercase">Parceiros Oficiais</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-70">
+
+                <!-- Parceiro 1 -->
+                <a href="https://nadrjmv.github.io/WebLv/" target="_blank" rel="noopener noreferrer"
+                class="w-full flex justify-center grayscale hover:grayscale-0 transition duration-300">
+                    <img 
+                        src="https://i.postimg.cc/xCxH4gGM/sd.png"
+                        alt="WebLv - Criação de Sites profissionais"
+                        title="WebLv — Sites e Sistemas Profissionais"
+                        class="h-20 w-auto object-contain"
+                    />
+                </a>
+
+                <!-- Parceiro 2 -->
+                <a href="https://nadrjmv.github.io/jordancell/" target="_blank" rel="noopener noreferrer"
+                class="w-full flex justify-center grayscale hover:grayscale-0 transition duration-300">
+                    <img 
+                        src="https://i.postimg.cc/pdqmWSyK/sassa-removebg-preview-1.png"
+                        alt="Assistência Técnica Jordan Cell"
+                        title="Jordan Cell - Assistência Técnica"
+                        class="h-20 w-auto object-contain"
+                    />
+                </a>
+
+                <!-- Parceiro 3 -->
+                <a href="https://www.instagram.com/nb_barbearia7/" target="_blank" rel="noopener noreferrer"
+                class="w-full flex justify-center grayscale hover:grayscale-0 transition duration-300">
+                    <img 
+                        src="https://i.postimg.cc/3N5QscPS/image-(3).jpg"
+                        alt="Barbearia NB"
+                        title="Barbearia NB"
+                        class="h-20 w-auto object-contain"
+                    />
+                </a>
+
+                <!-- Parceiro 4 -->
+                <a href="https://www.nike.com.br/" target="_blank" rel="noopener noreferrer"
+                class="w-full flex justify-center grayscale hover:grayscale-0 transition duration-300">
+                    <img 
+                        src="https://i.pinimg.com/736x/d5/c7/2c/d5c72cb18497d1ea65f29f0857a8c760.jpg"
+                        alt="Nike"
+                        title="Nike"
+                        class="h-20 w-auto object-contain"
+                    />
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre a Loja / Localização -->
+    <section id="about" class="py-20 bg-brand-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Info Texto -->
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl font-display font-bold text-white mb-6 uppercase">
+                        A Casa do Streetwear <br>em Itajubá
+                    </h2>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Localizada no coração de Itajubá, a WG.Styles não é apenas uma loja, é um ponto de encontro pra quem curte estilo e autenticidade. 
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <i class="ph ph-map-pin text-2xl text-white mr-4 mt-1"></i>
+                            <div>
+                                <h4 class="text-white font-bold">Endereço</h4>
+                                <p class="text-gray-400 text-sm">Rua Coronel Francisco Braz, 242, Centro<br>Itajubá - MG (Em frente a Cacau Show)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="ph ph-clock text-2xl text-white mr-4 mt-1"></i>
+                            <div>
+                                <h4 class="text-white font-bold">Horário</h4>
+                                <p class="text-gray-400 text-sm">Seg - Sex: 09:00 - 19:00<br>Sábado: 09:00 - 13:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com/?q=Rua+Coronel+Francisco+Braz,242,Itajubá" target="_blank" class="inline-flex items-center text-white border-b border-white pb-1 hover:text-gray-300 transition">
+                        Ver no Google Maps <i class="ph ph-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Imagem Loja (Placeholder estético) -->
+                <div class="relative h-96 rounded-lg overflow-hidden grayscale hover:grayscale-0 transition duration-700" data-aos="fade-left">
+                    <img src="https://i.postimg.cc/m2znGjby/image-(2).png" alt="Interior Loja WG Styles" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 bg-black/80 p-4 w-full">
+                        <p class="text-white font-bold">📍 Travessa do Banco Bradesco</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="font-display font-black text-2xl text-white italic tracking-tighter">WG.STYLES</h2>
+                    <!-- Ano atualizado pra 2026 -->
+                    <p class="text-gray-500 text-sm mt-2">© 2026 Todos os direitos reservados.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="ph ph-instagram-logo text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="ph ph-whatsapp-logo text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="ph ph-facebook-logo text-2xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://wa.me/5535999999999" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg shadow-green-500/20 hover:scale-110 transition duration-300 flex items-center justify-center animate-pulse">
+        <i class="ph ph-whatsapp-logo text-3xl"></i>
+    </a>
+
+    <!-- Modal Admin (Login) -->
+    <div id="admin-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/90 backdrop-blur-sm">
+        <div class="bg-brand-gray p-8 rounded-sm w-full max-w-md border border-gray-700 relative">
+            <button onclick="toggleAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="ph ph-x text-xl"></i>
+            </button>
+            <h3 class="text-2xl font-display font-bold text-white mb-6 text-center">Acesso Administrativo</h3>
+            <form onsubmit="event.preventDefault(); alert('Em breve: Redirecionamento para Dashboard');" class="space-y-4">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Usuário</label>
+                    <input type="text" class="w-full bg-brand-black border border-gray-700 text-white p-3 focus:outline-none focus:border-white transition" placeholder="admin">
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Senha</label>
+                    <input type="password" class="w-full bg-brand-black border border-gray-700 text-white p-3 focus:outline-none focus:border-white transition" placeholder="••••••">
+                </div>
+                <button type="submit" class="w-full bg-white text-black font-bold py-3 mt-4 hover:bg-gray-200">
+                    ENTRAR
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts (AOS + Custom Logic) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inicializa AOS (Animate on Scroll)
+        AOS.init({
+            once: true,
+            offset: 100,
+        });
+
+        // Mock de Dados para Produtos (Simulando um JSON que viria do Firebase depois)
+        const products = [
+            { id: 1, name: "Oversized Tee Black", price: "R$ 89,90", category: "clothing", img: "https://m.media-amazon.com/images/I/61UIvd90nQL._AC_UL320_.jpg" },
+            { id: 2, name: "Cargo Pants Tech", price: "R$ 159,90", category: "clothing", img: "https://blacktailor.com/cdn/shop/files/GFXR1652.jpg?v=1766805545&width=750p" },
+            { id: 3, name: "Moletom Sportlife", price: "R$ 199,90", category: "clothing", img: "https://down-br.img.susercontent.com/file/sg-11134201-7rdx0-mcc2vz72y6b513" },
+            { id: 4, name: "Boné NY Classic", price: "R$ 79,90", category: "clothing", img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=600&auto=format&fit=crop" },
+            
+            // Pratas
+            { id: 5, name: "Corrente Grumet 5mm", price: "R$ 220,00", category: "silver", img: "https://down-br.img.susercontent.com/file/sg-11134201-7req5-m1yj4ana0ijhd3" },
+            { id: 6, name: "Pulseira Bali", price: "R$ 180,00", category: "silver", img: "https://down-br.img.susercontent.com/file/br-11134207-7qukw-li23uxn0huet5d" },
+            { id: 7, name: "Anel Signet Silver", price: "R$ 120,00", category: "silver", img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=600&auto=format&fit=crop" }
+        ];
+
+        // Função renderizadora de cards
+        function renderProducts() {
+            const clothingContainer = document.getElementById('clothing-grid');
+            const silverContainer = document.getElementById('silver-grid');
+
+            products.forEach(product => {
+                const card = `
+                    <div class="product-card group cursor-pointer" data-aos="fade-up">
+                        <div class="relative overflow-hidden aspect-[4/5] bg-gray-800 rounded-sm mb-4">
+                            <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                            <button class="absolute bottom-0 left-0 w-full bg-white text-black font-bold py-3 translate-y-full group-hover:translate-y-0 transition duration-300 flex items-center justify-center gap-2" onclick="addToCart('${product.name}')">
+                                COMPRAR <i class="ph ph-shopping-cart"></i>
+                            </button>
+                        </div>
+                        <h3 class="text-white font-bold text-lg uppercase leading-tight">${product.name}</h3>
+                        <p class="text-gray-400 mt-1">${product.price}</p>
+                        <p class="text-xs text-gray-500 mt-1">até 10x sem juros</p>
+                    </div>
+                `;
+
+                if(product.category === 'clothing' && clothingContainer) {
+                    clothingContainer.innerHTML += card;
+                } else if (product.category === 'silver' && silverContainer) {
+                    silverContainer.innerHTML += card;
+                }
+            });
+        }
+
+        // Lógica simples do carrinho (Visual only)
+        let cartItems = 0;
+        function addToCart(itemName) {
+            cartItems++;
+            document.getElementById('cart-count').innerText = cartItems;
+            
+            // Feedback visual rápido
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "ADICIONADO!";
+            btn.classList.add("bg-green-500", "text-white");
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove("bg-green-500", "text-white");
+            }, 1500);
+        }
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Toggle Admin Modal
+        function toggleAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Fecha modal ao clicar fora
+        document.getElementById('admin-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'admin-modal') toggleAdminModal();
+        });
+
+        // Inicializa
+        renderProducts();
+
+    </script>
+</body>
+</html>
